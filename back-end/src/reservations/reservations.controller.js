@@ -66,7 +66,6 @@ function validateDate(req, res, next) {
   }
   const today = new Date();
   const reservationDate = new Date(data["reservation_date"]);
-  // console.log(reservationDate.getDay());
   if (today > reservationDate.getTime() && reservationDate.getDay() == 1) {
     return next({
       status: 400,
