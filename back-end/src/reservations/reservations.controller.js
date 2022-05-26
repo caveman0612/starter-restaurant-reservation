@@ -64,6 +64,26 @@ function validateDate(req, res, next) {
       message: `value of reservation_date is missing or empty`,
     });
   }
+  const today = new Date();
+  const reservationDate = new Date(data["reservation_date"]);
+  // console.log(reservationDate.getDay());
+  if (today > reservationDate.getTime() && reservationDate.getDay() == 1) {
+    return next({
+      status: 400,
+      message:
+        "Reservation date/time must occur in the future|The restaurant is closed on Tuesday",
+    });
+  } else if (today > reservationDate.getTime()) {
+    return next({
+      status: 400,
+      message: "Reservation date/time must occur in the future",
+    });
+  } else if (reservationDate.getDay() == 1) {
+    return next({
+      status: 400,
+      message: "The restaurant is closed on Tuesday",
+    });
+  }
   next();
 }
 
@@ -82,6 +102,8 @@ function validateTime(req, res, next) {
   }
   next();
 }
+
+// function validate
 
 module.exports = {
   list: asyncErrorBoundary(list),
