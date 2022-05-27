@@ -34,6 +34,7 @@ const ReservationForm = () => {
         // setIsError([]);
       })
       .catch((error) => {
+        console.log(error);
         const splitError = error.message.split("|");
         setIsError(splitError);
       });
