@@ -31,6 +31,7 @@ const ReservationForm = () => {
     createReservation(value, controller.signal)
       .then((data) => {
         history.push(`/dashboard?date=${formData.reservation_date}`);
+        // setIsError([]);
       })
       .catch((error) => {
         const splitError = error.message.split("|");

@@ -89,6 +89,11 @@ function validateDate(req, res, next) {
 
 function validateTime(req, res, next) {
   const { data } = req.body;
+  // console.log(data.reservation_date, data.reservation_time);
+  const date = new Date(`${data.reservation_date}, ${data.reservation_time}`);
+  const minutes = date.getHours() * 60 + date.getMinutes();
+  const startingMinutes = 630;
+  const endingMinutes = 1290;
   if (
     !data["reservation_time"] ||
     !data["reservation_time"]
@@ -98,6 +103,12 @@ function validateTime(req, res, next) {
     return next({
       status: 400,
       message: `value of reservation_time is missing or empty`,
+    });
+  }
+  if (minutes < startingMinutes || minutes > endingMinutes) {
+    return next({
+      status: 400,
+      message: "Please select a time between 10:30 and 21:30",
     });
   }
   next();
@@ -114,7 +125,6 @@ module.exports = {
     validateNumOfPeople,
     validateTime,
     validateDate,
-
     asyncErrorBoundary(create),
   ],
 };
