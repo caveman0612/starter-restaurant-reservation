@@ -33,7 +33,8 @@ const ReservationForm = () => {
         history.push(`/dashboard?date=${formData.reservation_date}`);
       })
       .catch((error) => {
-        const splitError = error.message.split("|");
+        console.log(error);
+        const splitError = error.message;
         setIsError(splitError);
       });
   }
