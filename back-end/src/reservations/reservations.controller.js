@@ -16,6 +16,12 @@ async function list(req, res) {
 async function read(req, res, next) {
   const { reservation_Id } = req.params;
   const value = await reservationService.read(reservation_Id);
+  if (!value) {
+    return next({
+      status: 404,
+      message: `id ${reservation_Id} does not exist`,
+    });
+  }
   res.json({ data: value });
 }
 
