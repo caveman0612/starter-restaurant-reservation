@@ -27,6 +27,10 @@ const TableForm = () => {
     });
   }
 
+  function handleCancel(event) {
+    history.go(-1);
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Create Table</h2>
@@ -37,7 +41,7 @@ const TableForm = () => {
             type="text"
             placeholder="Table Name"
             name="table_name"
-            pattern="^[a-zA-Z0-9]{2,}$"
+            pattern=".{2,}"
             onChange={handleChange}
             value={formData.table_name}
             required
@@ -55,7 +59,9 @@ const TableForm = () => {
           />
         </label>
         <div className="buttons-section">
-          <button className="btn btn-secondary">Cancel</button>
+          <button className="btn btn-secondary" onClick={handleCancel}>
+            Cancel
+          </button>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
