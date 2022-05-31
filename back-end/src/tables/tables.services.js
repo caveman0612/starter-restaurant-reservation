@@ -17,4 +17,12 @@ function create(table) {
     .then((record) => record[0]);
 }
 
-module.exports = { list, create, read };
+function update(table) {
+  return knex("tables")
+    .where({ table_id: table.table_id })
+    .update({ free: !table.free })
+    .returning("*")
+    .then((record) => record[0]);
+}
+
+module.exports = { list, create, read, update };

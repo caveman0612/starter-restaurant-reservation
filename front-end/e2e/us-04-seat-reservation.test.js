@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -176,7 +176,7 @@ describe("US-04 - Seat reservation - E2E", () => {
         path: ".screenshots/us-04-seat-reservation-start.png",
         fullPage: true,
       });
-
+      // console.log(page);
       await selectOptionByText(page, "table_id", "#1 - 6");
 
       await page.screenshot({
@@ -199,31 +199,29 @@ describe("US-04 - Seat reservation - E2E", () => {
     });
 
     test("cannot seat reservation at Bar #1", async () => {
-        await page.waitForSelector('option:not([value=""])');
+      await page.waitForSelector('option:not([value=""])');
 
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-start.png",
-          fullPage: true,
-        });
-
-        await selectOptionByText(page, "table_id", "Bar #1 - 1");
-
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-submit-before.png",
-          fullPage: true,
-        });
-
-        await Promise.all([
-          page.click("[type=submit]"),
-        ]);
-
-        await page.screenshot({
-          path: ".screenshots/us-04-seat-capacity-reservation-submit-after.png",
-          fullPage: true,
-        });
-
-        expect(page.url()).toContain("/seat");
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-start.png",
+        fullPage: true,
       });
+
+      await selectOptionByText(page, "table_id", "Bar #1 - 1");
+
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-submit-before.png",
+        fullPage: true,
+      });
+
+      await Promise.all([page.click("[type=submit]")]);
+
+      await page.screenshot({
+        path: ".screenshots/us-04-seat-capacity-reservation-submit-after.png",
+        fullPage: true,
+      });
+
+      expect(page.url()).toContain("/seat");
+    });
   });
 
   describe("/dashboard page", () => {

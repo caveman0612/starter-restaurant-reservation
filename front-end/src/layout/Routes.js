@@ -1,12 +1,14 @@
 import React from "react";
+// import { listReservations, listTables } from "../utils/api";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NotFound from "./NotFound";
-import { today } from "../utils/date-time";
+
 import ReservationForm from "../Reservations/ReservationForm";
-import useQuery from "../utils/useQuery";
+
 import TableForm from "../table/TableForm";
+import SeatReservation from "../Reservations/SeatReservation";
 
 /**
  * Defines all the routes for the application.
@@ -17,9 +19,6 @@ import TableForm from "../table/TableForm";
  */
 
 function Routes() {
-  const query = useQuery();
-  const date = query.get("date");
-  // console.log(date);
   return (
     <Switch>
       <Route exact={true} path="/">
@@ -31,8 +30,11 @@ function Routes() {
       <Route exact={true} path="/reservations/new">
         <ReservationForm />
       </Route>
+      <Route exact={true} path="/reservations/:reservation_id/seat">
+        <SeatReservation />
+      </Route>
       <Route path="/dashboard">
-        <Dashboard date={date ? date : today()} />
+        <Dashboard />
       </Route>
       <Route path="/tables/new">
         <TableForm />

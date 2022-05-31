@@ -16,8 +16,9 @@ async function create(req, res, next) {
 }
 
 async function update(req, res, next) {
-  const { data } = req.body;
-  res.json({ data });
+  const table = res.locals.table;
+  const value = await tablesService.update(table);
+  res.json({ data: value });
 }
 
 //validation
@@ -33,7 +34,7 @@ async function validateReservationIdUpdate(req, res, next) {
   if (!reservation) {
     return next({
       status: 404,
-      message: `${data["reservation_id"]} does not exist`,
+      message: `reservation id: ${data["reservation_id"]} does not exist`,
     });
   }
   res.locals.reservation = reservation;
@@ -44,10 +45,8 @@ async function validateTableForUpdate(req, res, next) {
   const { table_id } = req.params;
   const reservation = res.locals.reservation;
   const table = await tablesService.read(table_id);
-  // console.log(table, "|", reservation);
-  // console.log(typeof table.capacity, table.capacity, typeof reservation.people);
   if (!table) {
-    return next({ status: 400, message: `${table_id} doesnt exist` });
+    return next({ status: 400, message: `table id: ${table_id} doesnt exist` });
   }
   if (!table.free) {
     return next({ status: 400, message: "table is occupied" });
@@ -58,12 +57,11 @@ async function validateTableForUpdate(req, res, next) {
       message: "table does not have sufficient capacity",
     });
   }
-
   res.locals.table = table;
   next();
 }
 
-function validateTableName(req, res, next) {
+function validateTableNameCreate(req, res, next) {
   const { data } = req.body;
   if (!data) {
     return next({ status: 400, message: "data is missing" });
@@ -73,7 +71,7 @@ function validateTableName(req, res, next) {
   next();
 }
 
-function validateCapacity(req, res, next) {
+function validateCapacityCreate(req, res, next) {
   const { data } = req.body;
   if (!data) {
     return next({ status: 400, message: "data is missing" });
@@ -88,7 +86,11 @@ function validateCapacity(req, res, next) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [validateTableName, validateCapacity, asyncErrorBoundary(create)],
+  create: [
+    validateTableNameCreate,
+    validateCapacityCreate,
+    asyncErrorBoundary(create),
+  ],
   update: [
     asyncErrorBoundary(validateReservationIdUpdate),
     asyncErrorBoundary(validateTableForUpdate),
