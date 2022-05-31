@@ -21,7 +21,28 @@ async function update(req, res, next) {
   res.json({ data: value });
 }
 
+async function destory(req, res, next) {
+  const tables = res.locals.table;
+  const value = await tablesService.destory(tables.table_id);
+  res.json({ data: value });
+}
+
 //validation
+
+async function validateIfTableForDestory(req, res, next) {
+  const { table_id } = req.params;
+  const table = await tablesService.read(table_id);
+  console.log(table_id, table);
+  if (!table) {
+    return next({ status: 404, message: `table id: ${table_id} doesnt exist` });
+  }
+
+  if (table.free) {
+    return next({ status: 400, message: "table is not occupied" });
+  }
+  res.locals.table = table;
+  next();
+}
 
 async function validateReservationIdUpdate(req, res, next) {
   const { data } = req.body;
@@ -95,5 +116,9 @@ module.exports = {
     asyncErrorBoundary(validateReservationIdUpdate),
     asyncErrorBoundary(validateTableForUpdate),
     asyncErrorBoundary(update),
+  ],
+  destory: [
+    asyncErrorBoundary(validateIfTableForDestory),
+    asyncErrorBoundary(destory),
   ],
 };

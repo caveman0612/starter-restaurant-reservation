@@ -28,16 +28,6 @@ describe("US-05 - Finish an occupied table", () => {
       tableOne = await knex("tables").where("table_name", "#1").first();
     });
 
-    test("returns 404 for non-existent table_id", async () => {
-      const response = await request(app)
-        .delete("/tables/99/seat")
-        .set("Accept", "application/json")
-        .send({ datum: {} });
-
-      expect(response.body.error).toContain("99");
-      expect(response.status).toBe(404);
-    });
-
     test("returns 400 if table_id is not occupied.", async () => {
       const response = await request(app)
         .delete("/tables/1/seat")
@@ -46,6 +36,16 @@ describe("US-05 - Finish an occupied table", () => {
 
       expect(response.body.error).toContain("not occupied");
       expect(response.status).toBe(400);
+    });
+
+    test("returns 404 for non-existent table_id", async () => {
+      const response = await request(app)
+        .delete("/tables/99/seat")
+        .set("Accept", "application/json")
+        .send({ datum: {} });
+
+      expect(response.body.error).toContain("99");
+      expect(response.status).toBe(404);
     });
 
     test("returns 200 if table_id is occupied ", async () => {
