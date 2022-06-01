@@ -21,15 +21,15 @@ function create(table) {
 function update(table) {
   return knex("tables")
     .where({ table_id: table.table_id })
-    .update({ free: false })
+    .update({ free: !table.free })
     .returning("*")
     .then((record) => record[0]);
 }
 
-function destory(table_id) {
+function destory(table) {
   return knex("tables")
-    .where({ table_id })
-    .update({ free: true })
+    .where({ table_id: table.table_id })
+    .update({ free: !table.free })
     .returning("*")
     .then((record) => record[0]);
 }

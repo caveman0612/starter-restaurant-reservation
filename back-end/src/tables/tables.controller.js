@@ -11,6 +11,12 @@ async function list(req, res) {
 
 async function create(req, res, next) {
   const { data } = req.body;
+  if (data.reservation_id) {
+    data.free = false;
+  } else {
+    data.free = data.free == false ? false : true;
+  }
+
   const value = await tablesService.create(data);
   res.status(201).json({ data: value });
 }
@@ -22,8 +28,8 @@ async function update(req, res, next) {
 }
 
 async function destory(req, res, next) {
-  const tables = res.locals.table;
-  const value = await tablesService.destory(tables.table_id);
+  const table = res.locals.table;
+  const value = await tablesService.destory(table);
   res.json({ data: value });
 }
 
@@ -32,7 +38,7 @@ async function destory(req, res, next) {
 async function validateIfTableForDestory(req, res, next) {
   const { table_id } = req.params;
   const table = await tablesService.read(table_id);
-  console.log(table_id, table);
+
   if (!table) {
     return next({ status: 404, message: `table id: ${table_id} doesnt exist` });
   }

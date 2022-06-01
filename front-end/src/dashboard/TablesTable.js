@@ -1,13 +1,22 @@
 import React from "react";
+import { deleteSeatedTable } from "../utils/api";
+import { useHistory } from "react-router-dom";
 
-const TablesTable = ({ tables }) => {
-  const occupied = tables
-    .map((table, idx) => {
-      return !table.free ? idx : null;
-    })
-    .filter((item) => typeof item === "number");
+const TablesTable = ({ tables, setReservationsError }) => {
+  const history = useHistory();
 
-  function handleFreeTable(table) {}
+  function handleFreeTable(table) {
+    const confirm = window.confirm(
+      "Is this table ready to seat new guests? This cannot be undone."
+    );
+    if (confirm) {
+      deleteSeatedTable({ table_id: table.table_id })
+        .then(() => {
+          history.go(0);
+        })
+        .catch(setReservationsError);
+    }
+  }
 
   return (
     <div className="right">
@@ -28,14 +37,22 @@ const TablesTable = ({ tables }) => {
                 <td>{table.table_id}</td>
                 <td>{table.table_name}</td>
                 <td>{table.capacity}</td>
-                <td>{table.free ? "Free" : "Occupied"}</td>
-                <td>
-                  {occupied.includes(idx) ? (
-                    <button onClick={() => handleFreeTable(table)}>
-                      Finished
-                    </button>
-                  ) : null}
-                </td>
+                {table.free ? (
+                  <td data-table-id-status={table.table_id}>free</td>
+                ) : (
+                  <>
+                    <td data-table-id-status={table.table_id}>occupied</td>
+                    <td>
+                      <button
+                        onClick={() => handleFreeTable(table)}
+                        data-table-id-finish={table.table_id}
+                        data-reservation-id-finish={table.reservation_id}
+                      >
+                        Finished
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
             );
           })}

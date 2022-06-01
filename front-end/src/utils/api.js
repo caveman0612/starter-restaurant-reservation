@@ -58,6 +58,20 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
+export async function deleteSeatedTable(params, signal) {
+  const { table_id } = params;
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ data: {} }),
+    signal,
+  };
+
+  return await fetchJson(url, options, {});
+}
+
 export async function updateFreeTable(params, signal) {
   const { table_id, reservation_id } = params;
 

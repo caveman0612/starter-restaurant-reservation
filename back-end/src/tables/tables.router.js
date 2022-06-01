@@ -14,6 +14,4 @@ router
   .put(controller.update)
   .delete(controller.destory);
 
-// router.route("/:table_id/un-seat").put(controller.update);
-
 module.exports = router;

@@ -3,11 +3,14 @@ import "./dataList.css";
 import ReservationTable from "./ReservationTable";
 import TablesTable from "./TablesTable";
 
-const DataList = ({ reservations, date, tables }) => {
+const DataList = ({ reservations, date, tables, setReservationsError }) => {
   return (
     <div className="wrapper">
       <ReservationTable date={date} reservations={reservations} />
-      <TablesTable tables={tables} />
+      <TablesTable
+        tables={tables}
+        setReservationsError={setReservationsError}
+      />
     </div>
   );
 };

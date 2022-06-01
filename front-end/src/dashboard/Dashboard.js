@@ -44,7 +44,12 @@ function Dashboard() {
         <h4 className="mb-0">Reservations for date {date}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      <DataList reservations={reservations} tables={tables} date={date} />
+      <DataList
+        reservations={reservations}
+        tables={tables}
+        date={date}
+        setReservationsError={setReservationsError}
+      />
     </main>
   );
 }
