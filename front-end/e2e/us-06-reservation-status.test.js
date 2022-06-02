@@ -66,7 +66,7 @@ describe("US-06 - Reservation status - E2E", () => {
         `[data-reservation-id-status="${reservation.reservation_id}"]`,
         "booked"
       );
-      console.log("1");
+      // console.log("1");
 
       expect(containsBooked).toBe(true);
     });

@@ -5,6 +5,14 @@
 const reservationService = require("./reservations.services");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+async function edit(req, res) {
+  const { data } = req.body;
+  const { reservation_id } = req.params;
+  // console.log(data);
+  const value = await reservationService.edit(data, reservation_id);
+  res.json({ data: value });
+}
+
 async function update(req, res, next) {
   const { data } = req.body;
   const { reservation_id } = req.params;
@@ -21,12 +29,12 @@ async function list(req, res) {
 }
 
 async function read(req, res, next) {
-  const { reservation_Id } = req.params;
-  const value = await reservationService.read(reservation_Id);
+  const { reservation_id } = req.params;
+  const value = await reservationService.read(reservation_id);
   if (!value) {
     return next({
       status: 404,
-      message: `id ${reservation_Id} does not exist`,
+      message: `id ${reservation_id} does not exist`,
     });
   }
   res.json({ data: value });
@@ -46,7 +54,7 @@ async function create(req, res, next) {
 function validateStatusForUpdate(req, res, next) {
   const { data } = req.body;
   const reservation = res.locals.reservation;
-  const validStatus = ["booked", "seated", "finished"];
+  const validStatus = ["booked", "seated", "finished", "cancelled"];
 
   if (!data) {
     return next({ status: 400, message: "data is missing" });
@@ -60,6 +68,13 @@ function validateStatusForUpdate(req, res, next) {
 
 async function validateReservationIdUpdate(req, res, next) {
   const { reservation_id } = req.params;
+  // console.log(reservation_id);
+  if (!reservation_id) {
+    return next({
+      status: 404,
+      message: `reservation id: ${reservation_id} does not exist`,
+    });
+  }
   const reservation = await reservationService.read(reservation_id);
   if (!reservation) {
     return next({
@@ -92,7 +107,10 @@ function validateProperty(property) {
   return (req, res, next) => {
     const { data } = req.body;
     if (!data) {
-      return next({ status: 400, message: "data is missing" });
+      return next({
+        status: 400,
+        message: `value of ${property} is missing or empty`,
+      });
     } else if (!data[property]) {
       return next({
         status: 400,
@@ -177,6 +195,16 @@ function validateStatus(req, res, next) {
 // function validate
 
 module.exports = {
+  edit: [
+    validateProperty("first_name"),
+    validateProperty("last_name"),
+    validateProperty("mobile_number"),
+    validateNumOfPeople,
+    validateTime,
+    validateDate,
+    asyncErrorBoundary(validateReservationIdUpdate),
+    asyncErrorBoundary(edit),
+  ],
   update: [
     asyncErrorBoundary(validateReservationIdUpdate),
     validateStatusForUpdate,

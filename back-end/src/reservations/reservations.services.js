@@ -36,4 +36,30 @@ function update(status, reservation_id) {
     .then((record) => record[0]);
 }
 
-module.exports = { list, create, read, update };
+function edit(
+  {
+    first_name,
+    last_name,
+    mobile_number,
+    reservation_date,
+    reservation_time,
+    people,
+  },
+  reservation_id
+) {
+  // console.log(data);
+  return knex("reservations")
+    .where({ reservation_id })
+    .update({
+      first_name,
+      last_name,
+      mobile_number,
+      reservation_date,
+      reservation_time,
+      people,
+    })
+    .returning("*")
+    .then((record) => record[0]);
+}
+
+module.exports = { list, create, read, update, edit };
