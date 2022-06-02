@@ -25,13 +25,12 @@ const ReservationForm = () => {
   function handleSubmit(event) {
     event.preventDefault();
     const { people } = formData;
-    const value = { ...formData, people: Number(people) };
+    const value = { ...formData, people: Number(people), status: "booked" };
 
     const controller = new AbortController();
     createReservation(value, controller.signal)
       .then((data) => {
         history.push(`/dashboard?date=${formData.reservation_date}`);
-        // setIsError([]);
       })
       .catch((error) => {
         console.log(error);

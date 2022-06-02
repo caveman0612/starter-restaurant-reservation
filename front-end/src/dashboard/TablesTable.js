@@ -10,7 +10,10 @@ const TablesTable = ({ tables, setReservationsError }) => {
       "Is this table ready to seat new guests? This cannot be undone."
     );
     if (confirm) {
-      deleteSeatedTable({ table_id: table.table_id })
+      deleteSeatedTable({
+        table_id: table.table_id,
+        reservation_id: table.reservation_id,
+      })
         .then(() => {
           history.go(0);
         })

@@ -23,20 +23,36 @@ async function create(req, res, next) {
 
 async function update(req, res, next) {
   const table = res.locals.table;
-  const value = await tablesService.update(table);
+  const reservation = res.locals.reservation;
+  const value = await tablesService.update(table, reservation);
+  await reservationService.update("seated", reservation.reservation_id);
   res.json({ data: value });
 }
 
 async function destory(req, res, next) {
   const table = res.locals.table;
+  const reservation = res.locals.reservation;
+  // console.log(table, reservation);
   const value = await tablesService.destory(table);
-  res.json({ data: value });
+  let status;
+
+  if (reservation) {
+    // console.log(reservation);
+    status = await reservationService.update(
+      "finished",
+      reservation.reservation_id
+    );
+    return res.json({ data: { status } });
+  }
+  res.json({ data: { value } });
+  // console.log(value, status);
 }
 
 //validation
 
 async function validateIfTableForDestory(req, res, next) {
   const { table_id } = req.params;
+  // console.log("table", table_id);
   const table = await tablesService.read(table_id);
 
   if (!table) {
@@ -47,6 +63,25 @@ async function validateIfTableForDestory(req, res, next) {
     return next({ status: 400, message: "table is not occupied" });
   }
   res.locals.table = table;
+  next();
+}
+
+async function validateReservationIdForDelete(req, res, next) {
+  const { data } = req.body;
+  if (!data) {
+    return next();
+    // return next({ status: 400, message: "reservation data is missing" });
+  } else if (!data["reservation_id"]) {
+    return next({ status: 400, message: "reservation_id is missing or empty" });
+  }
+  const reservation = await reservationService.read(data["reservation_id"]);
+  if (!reservation) {
+    return next({
+      status: 404,
+      message: `reservation id: ${data["reservation_id"]} does not exist`,
+    });
+  }
+  res.locals.reservation = reservation;
   next();
 }
 
@@ -63,6 +98,9 @@ async function validateReservationIdUpdate(req, res, next) {
       status: 404,
       message: `reservation id: ${data["reservation_id"]} does not exist`,
     });
+  }
+  if (reservation.status === "seated") {
+    return next({ status: 400, message: "status already seated" });
   }
   res.locals.reservation = reservation;
   next();
@@ -125,6 +163,7 @@ module.exports = {
   ],
   destory: [
     asyncErrorBoundary(validateIfTableForDestory),
+    asyncErrorBoundary(validateReservationIdForDelete),
     asyncErrorBoundary(destory),
   ],
 };

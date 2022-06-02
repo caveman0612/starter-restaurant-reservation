@@ -18,10 +18,10 @@ function create(table) {
     .then((record) => record[0]);
 }
 
-function update(table) {
+function update(table, reservation) {
   return knex("tables")
     .where({ table_id: table.table_id })
-    .update({ free: !table.free })
+    .update({ free: !table.free, reservation_id: reservation.reservation_id })
     .returning("*")
     .then((record) => record[0]);
 }

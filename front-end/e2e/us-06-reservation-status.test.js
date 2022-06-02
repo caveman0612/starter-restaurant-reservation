@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -60,12 +60,13 @@ describe("US-06 - Reservation status - E2E", () => {
         path: ".screenshots/us-06-dashboard-displays-status.png",
         fullPage: true,
       });
-
+      console.log(reservation);
       const containsBooked = await containsText(
         page,
         `[data-reservation-id-status="${reservation.reservation_id}"]`,
         "booked"
       );
+      console.log("1");
 
       expect(containsBooked).toBe(true);
     });

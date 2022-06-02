@@ -5,6 +5,13 @@
 const reservationService = require("./reservations.services");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+async function update(req, res, next) {
+  const { data } = req.body;
+  const { reservation_id } = req.params;
+  const value = await reservationService.update(data.status, reservation_id);
+  res.json({ data: value });
+}
+
 async function list(req, res) {
   const { date } = req.query;
   const data = await reservationService.list(date);
@@ -27,11 +34,42 @@ async function read(req, res, next) {
 
 async function create(req, res, next) {
   const data = req.body.data;
+  if (!data.status) {
+    data.status = "booked";
+  }
   const value = await reservationService.create(data);
   res.status(201).json({ data: value });
 }
 
 // Validation
+
+function validateStatusForUpdate(req, res, next) {
+  const { data } = req.body;
+  const reservation = res.locals.reservation;
+  const validStatus = ["booked", "seated", "finished"];
+
+  if (!data) {
+    return next({ status: 400, message: "data is missing" });
+  } else if (!validStatus.includes(data.status)) {
+    return next({ status: 400, message: "unknown status" });
+  } else if (reservation.status === "finished") {
+    return next({ status: 400, message: "already finished" });
+  }
+  next();
+}
+
+async function validateReservationIdUpdate(req, res, next) {
+  const { reservation_id } = req.params;
+  const reservation = await reservationService.read(reservation_id);
+  if (!reservation) {
+    return next({
+      status: 404,
+      message: `reservation id: ${reservation_id} does not exist`,
+    });
+  }
+  res.locals.reservation = reservation;
+  next();
+}
 
 function validateNumOfPeople(req, res, next) {
   const { data } = req.body;
@@ -126,9 +164,24 @@ function validateTime(req, res, next) {
   next();
 }
 
+function validateStatus(req, res, next) {
+  const { data } = req.body;
+  if (!data) {
+    return next({ status: 400, message: "data is missing" });
+  } else if (data.status === "seated" || data.status === "finished") {
+    return next({ status: 400, message: "can not be seated or finished" });
+  }
+  next();
+}
+
 // function validate
 
 module.exports = {
+  update: [
+    asyncErrorBoundary(validateReservationIdUpdate),
+    validateStatusForUpdate,
+    asyncErrorBoundary(update),
+  ],
   list: asyncErrorBoundary(list),
   create: [
     validateProperty("first_name"),
@@ -137,6 +190,7 @@ module.exports = {
     validateNumOfPeople,
     validateTime,
     validateDate,
+    validateStatus,
     asyncErrorBoundary(create),
   ],
   read: asyncErrorBoundary(read),

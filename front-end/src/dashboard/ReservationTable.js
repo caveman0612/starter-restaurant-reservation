@@ -55,21 +55,27 @@ const ReservationTable = ({ date, reservations }) => {
                 <td>{item.reservation_data}</td>
                 <td>{item.reservation_time}</td>
                 <td>{item.people}</td>
-                <td>booked</td>
-                <td>
-                  <a
-                    className="btn btn-secondary"
-                    href={`/reservations/${item.reservation_id}/seat`}
-                  >
-                    Seat
-                  </a>
+                <td data-reservation-id-status={item.reservation_id}>
+                  {item.status}
                 </td>
-                <td>
-                  <button className="btn btn-secondary">Edit</button>
-                </td>
-                <td>
-                  <button className="btn btn-secondary">Cancel</button>
-                </td>
+                {item.status === "booked" ? (
+                  <>
+                    <td>
+                      <a
+                        className="btn btn-secondary"
+                        href={`/reservations/${item.reservation_id}/seat`}
+                      >
+                        Seat
+                      </a>
+                    </td>
+                    <td>
+                      <button className="btn btn-secondary">Edit</button>
+                    </td>
+                    <td>
+                      <button className="btn btn-secondary">Cancel</button>
+                    </td>
+                  </>
+                ) : null}
               </tr>
             ))}
           </tbody>

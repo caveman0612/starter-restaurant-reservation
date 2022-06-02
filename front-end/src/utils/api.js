@@ -58,14 +58,28 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
+export async function updateReservationStatus(params, signal) {
+  const { reservation_id, status } = params;
+
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status } }),
+    signal,
+  };
+
+  return await fetchJson(url, options, {});
+}
+
 export async function deleteSeatedTable(params, signal) {
-  const { table_id } = params;
+  const { table_id, reservation_id } = params;
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
 
   const options = {
     method: "DELETE",
     headers,
-    body: JSON.stringify({ data: {} }),
+    body: JSON.stringify({ data: { reservation_id } }),
     signal,
   };
 
