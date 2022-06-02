@@ -1,35 +1,10 @@
-import { useHistory } from "react-router-dom";
-import { today, previous, next } from "../utils/date-time";
+// import { useHistory } from "react-router-dom";
+// import { today, previous, next } from "../utils/date-time";
 import React from "react";
 
-const ReservationTable = ({ date, reservations }) => {
-  const history = useHistory();
-
-  function previousClick() {
-    history.push(`/dashboard?date=${previous(date)}`);
-  }
-
-  function todayClick() {
-    history.push(`/dashboard?date=${today()}`);
-  }
-
-  function nextClick() {
-    history.push(`/dashboard?date=${next(date)}`);
-  }
-
+const ReservationTable = ({ reservations }) => {
   return (
     <div className="left d-flex flex-column">
-      <div className="button-section">
-        <button className="" onClick={previousClick}>
-          Previous
-        </button>
-        <button className="" onClick={todayClick}>
-          Today
-        </button>
-        <button className="" onClick={nextClick}>
-          Next
-        </button>
-      </div>
       <div className="d-flex">
         <table className="overflow-scroll">
           <thead>

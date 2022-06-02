@@ -58,6 +58,16 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
+export async function searchByMobile(params, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations`);
+
+  Object.entries(params).forEach(([key, value]) =>
+    url.searchParams.append(key, value.toString())
+  );
+
+  return await fetchJson(url, { headers, signal }, []);
+}
+
 export async function updateReservationStatus(params, signal) {
   const { reservation_id, status } = params;
 

@@ -1,10 +1,14 @@
 const knex = require("../db/connection");
 
-function list(date = null) {
+function list({ date, mobile_number }) {
   if (date) {
     return knex("reservations")
       .where({ reservation_date: date })
       .whereNot({ status: "finished" })
+      .orderBy("reservation_time");
+  } else if (mobile_number) {
+    return knex("reservations")
+      .where("mobile_number", "ilike", `%${mobile_number}%`)
       .orderBy("reservation_time");
   }
   return knex("reservations").orderBy("reservation_time");

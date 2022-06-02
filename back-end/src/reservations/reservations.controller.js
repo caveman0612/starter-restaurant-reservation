@@ -13,8 +13,8 @@ async function update(req, res, next) {
 }
 
 async function list(req, res) {
-  const { date } = req.query;
-  const data = await reservationService.list(date);
+  const { date, mobile_number } = req.query;
+  const data = await reservationService.list({ date, mobile_number });
   res.json({
     data,
   });
