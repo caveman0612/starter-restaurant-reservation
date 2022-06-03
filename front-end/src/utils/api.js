@@ -68,6 +68,18 @@ export async function searchByMobile(params, signal) {
   return await fetchJson(url, { headers, signal }, []);
 }
 
+export async function updateEditReservation(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: reservation }),
+    signal,
+  };
+
+  return await fetchJson(url, options, reservation);
+}
+
 export async function updateReservationStatus(params, signal) {
   const { reservation_id, status } = params;
 

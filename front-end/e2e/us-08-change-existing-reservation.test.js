@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -61,8 +61,7 @@ describe("US-08 - Change an existing reservation - E2E", () => {
         await page.waitForSelector(hrefSelector);
 
         await page.screenshot({
-          path:
-            ".screenshots/us-08-dashboard-edit-click-after-no-change-expected.png",
+          path: ".screenshots/us-08-dashboard-edit-click-after-no-change-expected.png",
           fullPage: true,
         });
 
@@ -150,25 +149,31 @@ describe("US-08 - Change an existing reservation - E2E", () => {
       const [cancelButton] = await page.$x(
         "//button[contains(translate(., 'ACDEFGHIJKLMNOPQRSTUVWXYZ', 'acdefghijklmnopqrstuvwxyz'), 'cancel')]"
       );
+      // console.log("test 1");
 
       if (!cancelButton) {
         throw new Error("button containing cancel not found.");
       }
+      // console.log("test 2");
 
       await page.screenshot({
         path: ".screenshots/us-08-edit-reservation-cancel-before.png",
         fullPage: true,
       });
+      // console.log("test 3");
 
       await Promise.all([
         cancelButton.click(),
         page.waitForNavigation({ waitUntil: "networkidle0" }),
       ]);
+      // console.log("test 4");
 
       await page.screenshot({
         path: ".screenshots/us-08-edit-reservation-cancel-after.png",
         fullPage: true,
       });
+      // console.log("test 5");
+      // console.log(page.url());
 
       expect(page.url()).toContain("/dashboard");
     });

@@ -1,8 +1,27 @@
 // import { useHistory } from "react-router-dom";
 // import { today, previous, next } from "../utils/date-time";
 import React from "react";
+import { useHistory } from "react-router";
+import { updateReservationStatus } from "../utils/api";
 
 const ReservationTable = ({ reservations }) => {
+  const history = useHistory();
+
+  function handleCancel(reservation) {
+    const confirm = window.confirm(
+      "Do you want to cancel this reservation? This cannot be undone."
+    );
+    if (confirm) {
+      updateReservationStatus({
+        status: "cancelled",
+        reservation_id: reservation.reservation_id,
+      })
+        .then(() => {
+          history.go(0);
+        })
+        .catch(console.log);
+    }
+  }
   return (
     <div className="left d-flex flex-column">
       <div className="d-flex">
@@ -44,10 +63,23 @@ const ReservationTable = ({ reservations }) => {
                       </a>
                     </td>
                     <td>
-                      <button className="btn btn-secondary">Edit</button>
+                      {/* <button className="btn btn-secondary">Edit</button> */}
+                      <a
+                        className="btn btn-secondary"
+                        href={`/reservations/${item.reservation_id}/edit`}
+                      >
+                        edit
+                      </a>
                     </td>
                     <td>
-                      <button className="btn btn-secondary">Cancel</button>
+                      <button
+                        type="button"
+                        data-reservation-id-cancel={item.reservation_id}
+                        className="btn btn-secondary cancel"
+                        onClick={() => handleCancel(item)}
+                      >
+                        Cancel
+                      </button>
                     </td>
                   </>
                 ) : null}
