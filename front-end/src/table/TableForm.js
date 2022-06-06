@@ -35,39 +35,42 @@ const TableForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Create Table</h2>
-      <div className="">
-        <label htmlFor="table_name">
-          Table Name
-          <input
-            type="text"
-            placeholder="Table Name"
-            name="table_name"
-            pattern=".{2,}"
-            onChange={handleChange}
-            value={formData.table_name}
-            required
-          />
-        </label>
-        <label htmlFor="capacity">
-          Capacity
-          <input
-            type="number"
-            name="capacity"
-            onChange={handleChange}
-            value={formData.capacity}
-            min="1"
-            required
-          />
-        </label>
+      <fieldset>
+        <div className="row">
+          <div className="form-group col d-flex flex-column">
+            <label htmlFor="table_name">Table Name</label>
+            <input
+              type="text"
+              placeholder="Table Name"
+              name="table_name"
+              pattern=".{2,}"
+              onChange={handleChange}
+              value={formData.table_name}
+              required
+            />
+          </div>
+          <div className="form-group col d-flex flex-column">
+            <label htmlFor="capacity">Capacity</label>
+            <input
+              type="number"
+              name="capacity"
+              onChange={handleChange}
+              value={formData.capacity}
+              min="1"
+              required
+            />
+          </div>
+        </div>
+
         <div className="buttons-section">
-          <button className="btn btn-secondary" onClick={handleCancel}>
+          <button className="btn btn-secondary mr-3" onClick={handleCancel}>
             Cancel
           </button>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
         </div>
-      </div>
+      </fieldset>
     </form>
   );
 };

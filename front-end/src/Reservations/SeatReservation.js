@@ -70,8 +70,12 @@ const SeatReservation = () => {
           ))}
         </select>
 
-        <button onClick={handleCancel}>Cancel</button>
-        <button type="submit">Submit</button>
+        <button className="btn btn-secondary my-3 mr-3" onClick={handleCancel}>
+          Cancel
+        </button>
+        <button className="btn btn-secondary my-3" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

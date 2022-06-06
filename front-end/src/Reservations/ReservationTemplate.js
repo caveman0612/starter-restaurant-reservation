@@ -2,44 +2,53 @@ import React from "react";
 
 const ReservationTemplate = ({ handleChange, formData }) => {
   return (
-    <>
-      <div className="top-form row me-1">
-        <label htmlFor="first_name" className="label d-flex flex-column">
-          First Name
+    <fieldset>
+      <div className="row me-1">
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="first_name" className="label">
+            First Name
+          </label>
           <input
             type="text"
-            placeholder=""
+            placeholder="First Name"
             name="first_name"
             onChange={handleChange}
             value={formData.first_name}
             required
           />
-        </label>
-        <label htmlFor="last_name" className="label">
-          Last Name
+        </div>
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="last_name" className="label">
+            Last Name
+          </label>
           <input
             type="text"
-            placeholder=""
+            placeholder="Last Name"
             name="last_name"
             onChange={handleChange}
             value={formData.last_name}
             required
           />
-        </label>
-        <label htmlFor="mobile_number" className="label">
-          Mobile Number
+        </div>
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="mobile_number" className="label">
+            Mobile Number
+          </label>
           <input
             type="tel"
             name="mobile_number"
+            placeholder="Mobile Number"
             onChange={handleChange}
             value={formData.mobile_number}
             required
           />
-        </label>
+        </div>
       </div>
-      <div className="bottem-form row">
-        <label htmlFor="reservation_date" className="label">
-          Date
+      <div className=" row">
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="reservation_date" className="label">
+            Date
+          </label>
           <input
             type="date"
             placeholder="YYYY-MM-DD"
@@ -49,9 +58,11 @@ const ReservationTemplate = ({ handleChange, formData }) => {
             value={formData.reservation_date}
             required
           />
-        </label>
-        <label htmlFor="reservation_time" className="label">
-          Time
+        </div>
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="reservation_time" className="label">
+            Time
+          </label>
           <input
             type="time"
             placeholder="HH:MM"
@@ -61,9 +72,11 @@ const ReservationTemplate = ({ handleChange, formData }) => {
             value={formData.reservation_time}
             required
           />
-        </label>
-        <label htmlFor="people" className="label">
-          # of People
+        </div>
+        <div className="form-group col d-flex flex-column">
+          <label htmlFor="people" className="label">
+            # of People
+          </label>
           <input
             type="number"
             name="people"
@@ -72,9 +85,9 @@ const ReservationTemplate = ({ handleChange, formData }) => {
             min="1"
             required
           />
-        </label>
+        </div>
       </div>
-    </>
+    </fieldset>
   );
 };
 

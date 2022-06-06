@@ -22,15 +22,15 @@ const TablesTable = ({ tables, setReservationsError }) => {
   }
 
   return (
-    <div className="right">
-      <table>
+    <div className="table-responsive">
+      <table className="table no-wrap">
         <thead>
           <tr>
-            <th>#</th>
-            <th>TABLE NAME</th>
-            <th>CAPACITY</th>
-            <th>Free?</th>
-            <th></th>
+            <th className="border-top-0">#</th>
+            <th className="border-top-0">TABLE NAME</th>
+            <th className="border-top-0">CAPACITY</th>
+            <th className="border-top-0">Free?</th>
+            <th className="border-top-0"></th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +50,7 @@ const TablesTable = ({ tables, setReservationsError }) => {
                         onClick={() => handleFreeTable(table)}
                         data-table-id-finish={table.table_id}
                         data-reservation-id-finish={table.reservation_id}
+                        className="btn btn-secondary"
                       >
                         Finished
                       </button>
