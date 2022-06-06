@@ -39,7 +39,7 @@ const ReservationTable = ({ reservations, setReservationsError }) => {
         </thead>
         <tbody className="">
           {reservations.map((item, idx) => (
-            <tr key={idx}>
+            <tr key={item.reservation_id}>
               <td className="text-center">{item.reservation_id}</td>
               <td className="text-center">{`${item.last_name},${item.first_name}`}</td>
               <td className="text-center">{item.mobile_number}</td>
