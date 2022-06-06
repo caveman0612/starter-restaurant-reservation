@@ -83,7 +83,6 @@ const ReservationEdit = () => {
       <button type="submit" className="form-submit">
         Submit
       </button>
-      {/* <input type="submit" value="submit" /> */}
     </form>
   );
 };
