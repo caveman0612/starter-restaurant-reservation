@@ -25,6 +25,7 @@ const TableForm = () => {
     ).then(() => {
       history.push("/dashboard");
     });
+    return () => controller.abort();
   }
 
   function handleCancel(event) {

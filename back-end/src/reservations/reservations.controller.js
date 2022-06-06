@@ -66,6 +66,16 @@ function validateStatusForUpdate(req, res, next) {
   next();
 }
 
+function validateStatus(req, res, next) {
+  const { data } = req.body;
+  if (!data) {
+    return next({ status: 400, message: "data is missing" });
+  } else if (data.status === "seated" || data.status === "finished") {
+    return next({ status: 400, message: "can not be seated or finished" });
+  }
+  next();
+}
+
 async function validateReservationIdUpdate(req, res, next) {
   const { reservation_id } = req.params;
   // console.log(reservation_id);
@@ -178,16 +188,6 @@ function validateTime(req, res, next) {
       status: 400,
       message: "Please select a time between 10:30 and 21:30",
     });
-  }
-  next();
-}
-
-function validateStatus(req, res, next) {
-  const { data } = req.body;
-  if (!data) {
-    return next({ status: 400, message: "data is missing" });
-  } else if (data.status === "seated" || data.status === "finished") {
-    return next({ status: 400, message: "can not be seated or finished" });
   }
   next();
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import "./dataList.css";
 import ReservationTable from "./ReservationTable";
 import TablesTable from "./TablesTable";
 import { useHistory } from "react-router-dom";
@@ -20,7 +19,7 @@ const DataList = ({ reservations, date, tables, setReservationsError }) => {
     history.push(`/dashboard?date=${next(date)}`);
   }
   return (
-    <div className="wrapper">
+    <div className="wrapper d-flex">
       <div className="left">
         <div className="button-section">
           <button className="" onClick={previousClick}>

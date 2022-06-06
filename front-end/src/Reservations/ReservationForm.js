@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./reservationForm.css";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
+import ReservationTemplate from "./ReservationTemplate";
 
 const ReservationForm = () => {
   const _initialFormState = {
@@ -33,10 +33,11 @@ const ReservationForm = () => {
         history.push(`/dashboard?date=${formData.reservation_date}`);
       })
       .catch((error) => {
-        console.log(error);
         const splitError = error.message.split("|");
         setIsError(splitError);
       });
+
+    return () => controller.abort();
   }
 
   function handleCancel() {
@@ -58,7 +59,8 @@ const ReservationForm = () => {
     <form onSubmit={handleSubmit}>
       <h2>Create Reservation</h2>
       {isError.length ? errorMessage : null}
-      <div className="top-form row">
+      <ReservationTemplate formData={formData} handleChange={handleChange} />
+      {/* <div className="top-form row">
         <label htmlFor="first_name" className="label">
           First Name
           <input
@@ -128,7 +130,7 @@ const ReservationForm = () => {
             required
           />
         </label>
-      </div>
+      </div> */}
 
       <button className="form-cancel" onClick={handleCancel}>
         Cancel
@@ -136,7 +138,6 @@ const ReservationForm = () => {
       <button type="submit" className="form-submit">
         Submit
       </button>
-      {/* <input type="submit" value="submit" /> */}
     </form>
   );
 };

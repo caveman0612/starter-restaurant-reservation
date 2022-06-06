@@ -35,6 +35,8 @@ const SeatReservation = () => {
         history.push("/dashboard");
       })
       .catch(setError);
+
+    return () => controller.abort();
   }
 
   function handleChange(event) {
