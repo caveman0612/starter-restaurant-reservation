@@ -54,6 +54,7 @@ const TableForm = () => {
             <input
               type="number"
               name="capacity"
+              placeholder="Max Capacity"
               onChange={handleChange}
               value={formData.capacity}
               min="1"

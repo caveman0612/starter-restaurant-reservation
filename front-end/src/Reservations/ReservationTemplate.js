@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReservationTemplate = ({ handleChange, formData }) => {
+const ReservationTemplate = ({ handleChange, formData, handleCancel }) => {
   return (
     <fieldset>
       <div className="row me-1">
@@ -87,6 +87,15 @@ const ReservationTemplate = ({ handleChange, formData }) => {
           />
         </div>
       </div>
+      <button
+        className="form-cancel btn btn-secondary mr-3"
+        onClick={handleCancel}
+      >
+        Cancel
+      </button>
+      <button type="submit" className="form-submit btn btn-primary">
+        Submit
+      </button>
     </fieldset>
   );
 };

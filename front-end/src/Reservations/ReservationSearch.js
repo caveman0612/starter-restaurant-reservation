@@ -23,24 +23,21 @@ const ReservationSearch = () => {
   }
 
   return (
-    <div>
+    <div className="">
       <h2>Search reservations</h2>
       <ErrorAlert error={error} />
-      <form className="d-flex flex-column" onSubmit={handleSubmit}>
+      <form className="d-flex flex-column mt-4" onSubmit={handleSubmit}>
         <label htmlFor="mobile_number">Mobile Number</label>
         <div className="section d-flex">
           <input
             type="tel"
             name="mobile_number"
             placeholder="Enter the customer's mobile"
-            className="rounded-0"
+            className="border-3 p-1"
             value={formData}
             onChange={handleChange}
           />
-          <button
-            type="submit"
-            className="btn btn-primary rounded-end rounded-0"
-          >
+          <button type="submit" className="btn btn-primary ml-3">
             Find
           </button>
         </div>

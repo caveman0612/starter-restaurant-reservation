@@ -75,14 +75,11 @@ const ReservationEdit = () => {
     <form onSubmit={handleSubmit}>
       <h2>Edit Reservation</h2>
       {isError.length ? errorMessage : null}
-      <ReservationTemplate formData={formData} handleChange={handleChange} />
-
-      <button className="form-cancel" onClick={handleCancel}>
-        Cancel
-      </button>
-      <button type="submit" className="form-submit">
-        Submit
-      </button>
+      <ReservationTemplate
+        formData={formData}
+        handleChange={handleChange}
+        handleCancel={handleCancel}
+      />
     </form>
   );
 };
