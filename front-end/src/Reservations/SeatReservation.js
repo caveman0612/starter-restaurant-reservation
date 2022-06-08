@@ -63,8 +63,8 @@ const SeatReservation = () => {
           onChange={handleChange}
         >
           <option value="">Select a table</option>
-          {tables.map((table, idx) => (
-            <option key={idx} value={table.table_id}>
+          {tables.map((table) => (
+            <option key={table.table_id} value={table.table_id}>
               {table.table_name} - {table.capacity}
             </option>
           ))}

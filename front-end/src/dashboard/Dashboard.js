@@ -85,12 +85,6 @@ function Dashboard() {
           />
         </div>
       </div>
-      {/* <DataList
-        reservations={reservations}
-        tables={tables}
-        date={date}
-        setReservationsError={setReservationsError}
-      /> */}
     </main>
   );
 }

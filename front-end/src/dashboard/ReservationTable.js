@@ -38,7 +38,7 @@ const ReservationTable = ({ reservations, setReservationsError }) => {
           </tr>
         </thead>
         <tbody className="">
-          {reservations.map((item, idx) => (
+          {reservations.map((item) => (
             <tr key={item.reservation_id}>
               <td className="text-center">{item.reservation_id}</td>
               <td className="text-center">{`${item.last_name},${item.first_name}`}</td>
@@ -60,7 +60,6 @@ const ReservationTable = ({ reservations, setReservationsError }) => {
                     </a>
                   </td>
                   <td>
-                    {/* <button className="btn btn-secondary">Edit</button> */}
                     <a
                       className="btn btn-secondary"
                       href={`/reservations/${item.reservation_id}/edit`}

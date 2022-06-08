@@ -34,7 +34,7 @@ const TablesTable = ({ tables, setReservationsError }) => {
           </tr>
         </thead>
         <tbody>
-          {tables.map((table, idx) => {
+          {tables.map((table) => {
             return (
               <tr key={table.table_id}>
                 <td>{table.table_id}</td>
