@@ -65,8 +65,8 @@ const ReservationEdit = () => {
     <div className="alert alert-danger">
       Please fix the following Errors:
       <ul>
-        {isError.map((error, idx) => {
-          return <li key={idx}>{error}</li>;
+        {isError.map((error) => {
+          return <li key={error}>{error}</li>;
         })}
       </ul>
     </div>
